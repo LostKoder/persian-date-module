@@ -2,9 +2,10 @@
 
 namespace Drupal\persian_date\Formatter;
 
+use Drupal\Core\Datetime\DateFormatter;
 use Drupal\persian_date\Converter\PersianDateFactory;
 
-class PersianDateFormatter extends \Drupal\Core\Datetime\DateFormatter
+class PersianDateFormatter extends DateFormatter
 {
     public function format($timestamp, $type = 'medium', $format = '', $timezone = NULL, $langcode = NULL)
     {

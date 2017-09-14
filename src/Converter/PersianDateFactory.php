@@ -66,7 +66,7 @@ class PersianDateFactory
      */
     public static function buildFromTimestamp($timestamp, $timezone = null)
     {
-        $dateTime = new \DateTime();
+        $dateTime = new PersianDate();
         $dateTime->setTimestamp($timestamp);
         if ($timezone) {
             $dateTime->setTimezone(new \DateTimeZone($timezone));
