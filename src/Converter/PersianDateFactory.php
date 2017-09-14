@@ -62,7 +62,7 @@ class PersianDateFactory
     /**
      * @param integer $timestamp
      * @param string $timezone
-     * @return \DateTime
+     * @return PersianDate
      */
     public static function buildFromTimestamp($timestamp, $timezone = null)
     {

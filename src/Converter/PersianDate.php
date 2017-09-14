@@ -90,7 +90,7 @@ class PersianDate extends \DateTime
                     break;
 
                 case'D':
-                    $out.=$this->persianWords(array('kh'=>$date[7]),' ');
+                    $out.=$this->persianWords(array('rh'=>$date[7]),' ');
                     break;
 
                 case'f':
@@ -326,4 +326,31 @@ class PersianDate extends \DateTime
         return ($mod == '') ? $array : implode($mod, $array);
     }
 
+    public function ago()
+    {
+        $now = time();
+        $time = $this->getTimestamp();
+        // catch error
+        if (!$time) {
+            return false;
+        }
+        // build period and length arrays
+        $periods = array('ثانیه', 'دقیقه', 'ساعت', 'روز', 'هفته', 'ماه', 'سال', 'قرن');
+        $lengths = array(60, 60, 24, 7, 4.35, 12, 10);
+        // get difference
+        $difference = $now - $time;
+        // set descriptor
+        if ($difference < 0) {
+            $difference = abs($difference); // absolute value
+            $negative = true;
+        }
+        // do math
+        for ($j = 0; $difference >= $lengths[$j] and $j < count($lengths) - 1; $j++) {
+            $difference /= $lengths[$j];
+        }
+        // round difference
+        $difference = intval(round($difference));
+        // return
+        return number_format($difference) . ' ' . $periods[$j] . ' ' . (isset($negative) ? '' : 'پیش');
+    }
 }

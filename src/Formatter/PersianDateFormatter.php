@@ -20,8 +20,8 @@ class PersianDateFormatter extends DateFormatter
         if (empty($format)) {
             $format = $this->dateFormat('fallback', $langcode)->getPattern();
         }
-        return $date->format($format);
 
+        return $date->format($format);
     }
 
 }
