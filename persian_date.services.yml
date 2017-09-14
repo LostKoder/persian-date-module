@@ -1,0 +1,5 @@
+#services:
+#  persian_date.formatter:
+#    class: Drupal\persian_date\Formatter\PersianDateFormatter
+#    arguments: []
+#
