@@ -58,4 +58,19 @@ class PersianDateFactory
         $object->setTimestamp($dateTime->getTimestamp());
         return $object;
     }
+
+    /**
+     * @param integer $timestamp
+     * @param string $timezone
+     * @return \DateTime
+     */
+    public static function buildFromTimestamp($timestamp, $timezone = null)
+    {
+        $dateTime = new \DateTime();
+        $dateTime->setTimestamp($timestamp);
+        if ($timezone) {
+            $dateTime->setTimezone(new \DateTimeZone($timezone));
+        }
+        return $dateTime;
+    }
 }

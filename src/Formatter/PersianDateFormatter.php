@@ -2,26 +2,20 @@
 
 namespace Drupal\persian_date\Formatter;
 
-use Drupal\persian_date\Converter\PersianDate;
+use Drupal\persian_date\Converter\PersianDateFactory;
 
 class PersianDateFormatter extends \Drupal\Core\Datetime\DateFormatter
 {
     public function format($timestamp, $type = 'medium', $format = '', $timezone = NULL, $langcode = NULL)
     {
-        $date = new PersianDate();
-        $date->setTimestamp($timestamp);
-        if ($timezone) {
-            $date->setTimezone(new \DateTimeZone($timezone));
-        }
+        $date = PersianDateFactory::buildFromTimestamp($timestamp, $timezone);
 
         if ($type !== 'custom') {
             if ($date_format = $this->dateFormat($type, $langcode)) {
                 $format = $date_format->getPattern();
             }
-        }else{
-            dd($format);
         }
-//        dump($langcode);die;
+
         if (empty($format)) {
             $format = $this->dateFormat('fallback', $langcode)->getPattern();
         }
