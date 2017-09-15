@@ -11,6 +11,15 @@ class PersianDateFormatter extends DateFormatter
     public function format($timestamp, $type = 'medium', $format = '', $timezone = NULL, $langcode = NULL)
     {
 
+        // only convert farsi on multi lingual sites
+        $isMultiLingual = count(\Drupal::languageManager()->getLanguages()) > 1;
+        if ($isMultiLingual) {
+            $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+            if ($language !== 'fa') {
+                return parent::format($timestamp, $type, $format, $timezone, $langcode);
+            }
+        }
+
         if (!isset($timezone)) {
             $timezone = date_default_timezone_get();
         }
@@ -31,6 +40,11 @@ class PersianDateFormatter extends DateFormatter
             if ($date_format = $this->dateFormat($type, $langcode)) {
                 $format = $date_format->getPattern();
             }
+        }
+
+        // called by query builder
+        if ($type === 'custom' & $format === DATETIME_DATETIME_STORAGE_FORMAT) {
+            return parent::format($timestamp, $type, $format, $timezone, $langcode);
         }
 
         // Fall back to the 'medium' date format type if the format string is
