@@ -6,19 +6,14 @@ use Drupal\Core\Datetime\DateFormatter;
 use Drupal\Core\Datetime\FormattedDateDiff;
 use Drupal\persian_date\Converter\PersianDateConverter;
 use Drupal\persian_date\Converter\PersianDateFactory;
+use Drupal\persian_date\PersianLanguageDiscovery;
 
 class PersianDateFormatter extends DateFormatter
 {
     public function format($timestamp, $type = 'medium', $format = '', $timezone = NULL, $langcode = NULL)
     {
-
-        // only convert farsi on multi lingual sites
-        $isMultiLingual = count(\Drupal::languageManager()->getLanguages()) > 1;
-        if ($isMultiLingual) {
-            $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
-            if ($language !== 'fa') {
-                return parent::format($timestamp, $type, $format, $timezone, $langcode);
-            }
+        if (!PersianLanguageDiscovery::isPersian()) {
+            return parent::format($timestamp, $type, $format, $timezone, $langcode);
         }
 
         if (!isset($timezone)) {

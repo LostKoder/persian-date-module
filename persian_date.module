@@ -448,6 +448,10 @@ FORMAT;
 
 function persian_date_replace_date_time_after_form_submit(&$form, \Drupal\Core\Form\FormState $state)
 {
+    if (!\Drupal\persian_date\PersianLanguageDiscovery::isPersian()) {
+        return;
+    }
+
     foreach ($state->getValues() as $key => $values) {
         if (is_array($values)) {
             $_values = [];
@@ -469,6 +473,9 @@ function persian_date_replace_date_time_after_form_submit(&$form, \Drupal\Core\F
 
 function persian_date_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
 {
+    if (!\Drupal\persian_date\PersianLanguageDiscovery::isPersian()) {
+        return;
+    }
     $callback = 'persian_date_replace_date_time_after_form_submit';
     foreach ($form as $field => &$definition) {
         if (
