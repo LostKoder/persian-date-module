@@ -25,9 +25,12 @@ class PersianLanguageDiscovery
                 $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
                 if ($language !== 'fa') {
                     self::$isPersian = false;
+                } else {
+                    self::$isPersian = true;
                 }
+            } else {
+                self::$isPersian = true;
             }
-            self::$isPersian = true;
         }
 
         return self::$isPersian;
