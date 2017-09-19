@@ -37,7 +37,7 @@ class PersianDateFactory
             $timestamp = mktime();
         } else {
             list($gy, $gm, $gd) = PersianDateConverter::jalali_to_gregorian($year, $month, $day);
-            $timestamp = mktime($hour, $minute, $second, $gm, $gd, $gy, $is_dst);
+            $timestamp = mktime($hour, $minute, $second, $gm, $gd, $gy);
         }
 
         $object = new PersianDate();

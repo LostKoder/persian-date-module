@@ -10,6 +10,8 @@
  */
 
 namespace Drupal\persian_date\Converter;
+use Drupal\Core\Datetime\DrupalDateTime;
+use ReflectionObject;
 
 
 /**
@@ -81,5 +83,33 @@ class PersianDateConverter
             $gd -= $v;
         }
         return ($mod == '') ? array($gy, $gm, $gd) : $gy . $mod . $gm . $mod . $gd;
+    }
+
+    /**
+     * Converts wrongly formatted shamsi datetime to standard one
+     *
+     * @param mixed $dateTime
+     * @return \DateTime
+     */
+    public static function normalizeDate($dateTime)
+    {
+        $return =  \Drupal\persian_date\Converter\PersianDateFactory::buildFromExactDate(
+            $dateTime->format('H'),
+            $dateTime->format('i'),
+            $dateTime->format('s'),
+            $dateTime->format('m'),
+            $dateTime->format('d'),
+            $dateTime->format('Y')
+        )->getOriginalDateTime();
+        if ($dateTime instanceof DrupalDateTime) {
+            $ref = new ReflectionObject($dateTime);
+            $property = $ref->getProperty('dateTimeObject');
+            $property->setAccessible(true);
+            $return->setTimezone($property->getValue($dateTime)->getTimezone());
+        }
+        if ($dateTime instanceof \DateTimeInterface) {
+            $return->setTimezone($dateTime->getTimezone());
+        }
+        return $return;
     }
 }

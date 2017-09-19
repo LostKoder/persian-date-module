@@ -36,8 +36,6 @@ class PersianDate extends \DateTime
      */
     public function format($format)
     {
-
-
         $T_sec = 0;/* <= ??? ???? ???? ???? ? ?? ????? '+' ? '-' ?? ??? ????? */
 
         if ($this->getTimezone()->getName() != 'local') date_default_timezone_set(($this->getTimezone()->getName() == '') ? 'Asia/Tehran' : $this->getTimezone()->getName());

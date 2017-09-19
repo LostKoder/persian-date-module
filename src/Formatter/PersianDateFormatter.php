@@ -4,6 +4,7 @@ namespace Drupal\persian_date\Formatter;
 
 use Drupal\Core\Datetime\DateFormatter;
 use Drupal\Core\Datetime\FormattedDateDiff;
+use Drupal\persian_date\Converter\PersianDateConverter;
 use Drupal\persian_date\Converter\PersianDateFactory;
 
 class PersianDateFormatter extends DateFormatter
@@ -23,6 +24,7 @@ class PersianDateFormatter extends DateFormatter
         if (!isset($timezone)) {
             $timezone = date_default_timezone_get();
         }
+
         // Store DateTimeZone objects in an array rather than repeatedly
         // constructing identical objects over the life of a request.
         if (!isset($this->timezones[$timezone])) {
@@ -44,7 +46,10 @@ class PersianDateFormatter extends DateFormatter
 
         // called by query builder
         if ($type === 'custom' & $format === DATETIME_DATETIME_STORAGE_FORMAT) {
-            return parent::format($timestamp, $type, $format, $timezone, $langcode);
+            // convert shamsi to georgian
+            $parent = parent::format($timestamp, $type, $format, $timezone, $langcode);
+            $other = PersianDateConverter::normalizeDate(new \DateTime($parent, new \DateTimeZone((string)$timezone)));
+            return parent::format($other->getTimestamp(), $type, $format, $timezone, $langcode);
         }
 
         // Fall back to the 'medium' date format type if the format string is
