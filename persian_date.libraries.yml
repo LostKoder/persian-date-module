@@ -1,11 +1,11 @@
 core:
   version: VERSION
   js:
-    js/datepicker.fa.min.js: {}
-    js/date.js: {}
+    resources/js/datepicker.fa.min.js: {}
+    resources/js/date.js: {}
   css:
     theme:
-      css/date.css: {}
+      resources/css/date.css: {}
   dependencies:
     - core/drupal
     - core/modernizr
