@@ -483,7 +483,7 @@ function persian_date_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $f
             isset($definition['widget']) &&
             isset($definition['widget'][0]) &&
             isset($definition['widget'][0]['value']) &&
-            in_array($definition['widget'][0]['value']['#type'], ['datetime', 'datelist'])
+            in_array($definition['widget'][0]['value']['#type'], ['datetime', 'datelist','persian_datetime','persian_datelist'])
         ) {
             /** @var DrupalDateTime $dateTime */
             $dateTime = &$form[$field]['widget'][0]['value']['#default_value'];
@@ -504,4 +504,13 @@ function persian_date_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $f
             }
         }
     }
+}
+
+
+
+function persian_date_entity_form_display_alter(\Drupal\Core\Entity\Display\EntityFormDisplayInterface $form_display, array $context)
+{
+    $dateTime = $form_display->getComponent('field_bingo');
+    $dateTime['type'] = 'persian_datetime_default';
+    $form_display->setComponent('field_bingo', $dateTime);
 }
