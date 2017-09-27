@@ -38,11 +38,12 @@
           .replace('d', 'dd');
         // Add min and max date if set on the input.
         if ($input.attr('min')) {
-          datepickerSettings.minDate = $input.attr('min');
+          // datepickerSettings.minDate = $input.attr('min');
         }
         if ($input.attr('max')) {
-          datepickerSettings.maxDate = $input.attr('max');
+          // datepickerSettings.maxDate = $input.attr('max');
         }
+        console.log(datepickerSettings);
         $input.datepicker(datepickerSettings);
       });
     },

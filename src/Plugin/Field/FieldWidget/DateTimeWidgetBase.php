@@ -25,7 +25,7 @@ class DateTimeWidgetBase extends WidgetBase {
       '#required' => $element['#required'],
     ];
 
-    if ($this->getFieldSetting('datetime_type') == DateTimeItem::DATETIME_TYPE_DATE) {
+    if ($this->getFieldSetting('persian_datetime_type') == DateTimeItem::DATETIME_TYPE_DATE) {
       // A date-only field should have no timezone conversion performed, so
       // use the same timezone as for storage.
       $element['value']['#date_timezone'] = DATETIME_STORAGE_TIMEZONE;
@@ -35,7 +35,7 @@ class DateTimeWidgetBase extends WidgetBase {
       $date = $items[$delta]->date;
       // The date was created and verified during field_load(), so it is safe to
       // use without further inspection.
-      if ($this->getFieldSetting('datetime_type') == DateTimeItem::DATETIME_TYPE_DATE) {
+      if ($this->getFieldSetting('persian_datetime_type') == DateTimeItem::DATETIME_TYPE_DATE) {
         // A date without time will pick up the current time, use the default
         // time.
         datetime_date_default_time($date);
@@ -57,7 +57,7 @@ class DateTimeWidgetBase extends WidgetBase {
     foreach ($values as &$item) {
       if (!empty($item['value']) && $item['value'] instanceof DrupalDateTime) {
         $date = $item['value'];
-        switch ($this->getFieldSetting('datetime_type')) {
+        switch ($this->getFieldSetting('persian_datetime_type')) {
           case DateTimeItem::DATETIME_TYPE_DATE:
             // If this is a date-only field, set it to the default time so the
             // timezone conversion can be reversed.
