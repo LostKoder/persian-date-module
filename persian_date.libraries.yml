@@ -12,4 +12,4 @@ core:
     - core/drupal
     - core/modernizr
     - core/jquery.once
-    - core/jquery.ui.datepicker
+#    - core/jquery.ui.datepicker

@@ -35,14 +35,18 @@
           .replace('d', 'dd');
         // Add min and max date if set on the input.
         if ($input.attr('min')) {
-          datepickerSettings.minDate = $input.attr('min');
+          // datepickerSettings.minDate = $input.attr('min');
         }
         if ($input.attr('max')) {
-          datepickerSettings.maxDate = $input.attr('max');
+          // datepickerSettings.maxDate = $input.attr('max');
         }
+<<<<<<< HEAD
         datepickerSettings.changeMonth = true;
         datepickerSettings.changeYear = true;
         // datepickerSettings.yearRange = '1380:1400';
+=======
+        console.log(datepickerSettings);
+>>>>>>> 4df666efc7a976082f2f839833944f370cfc26d8
         $input.datepicker(datepickerSettings);
       });
     },

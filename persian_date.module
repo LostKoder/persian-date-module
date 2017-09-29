@@ -521,7 +521,6 @@ function persian_date_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $f
             $dateTime = &$form[$field]['widget'][0]['value']['#default_value'];
             if (isset($dateTime) && $dateTime instanceof DrupalDateTime) {
                 $dateTime = PersianDrupalDateTime::createFromDrupalDateTime($dateTime);
-//            $form[$field]['#element_validate'][] = $callback;
             }
         }
     }
