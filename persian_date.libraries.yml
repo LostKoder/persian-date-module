@@ -1,7 +1,9 @@
 core:
   version: VERSION
   js:
-    resources/js/datepicker.fa.min.js: {}
+    resources/js/calendar.js: {}
+    resources/js/jquery.ui.datepicker-cc.js: {}
+    resources/js/jquery.ui.datepicker-cc-fa.js: {}
     resources/js/date.js: {}
   css:
     theme:

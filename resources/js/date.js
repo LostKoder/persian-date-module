@@ -22,10 +22,7 @@
   Drupal.behaviors.date = {
     attach: function (context, settings) {
       var $context = $(context);
-      // Skip if date are supported by the browser.
-      if (Modernizr.inputtypes.date === true) {
-        // return;
-      }
+      $context.find('[type=date]').attr('type','text');
       $context.find('input[data-drupal-date-format]').once('datePicker').each(function () {
         var $input = $(this);
         var datepickerSettings = {};
@@ -43,12 +40,15 @@
         if ($input.attr('max')) {
           datepickerSettings.maxDate = $input.attr('max');
         }
+        datepickerSettings.changeMonth = true;
+        datepickerSettings.changeYear = true;
+        // datepickerSettings.yearRange = '1380:1400';
         $input.datepicker(datepickerSettings);
       });
     },
     detach: function (context, settings, trigger) {
       if (trigger === 'unload') {
-        $(context).find('input[data-drupal-date-format]').findOnce('datePicker').datepicker('destroy');
+          $(context).find('input[data-drupal-date-format]').findOnce('datePicker').datepicker('destroy');
       }
     }
   };

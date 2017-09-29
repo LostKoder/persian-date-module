@@ -93,7 +93,7 @@ class PersianDateConverter
      */
     public static function normalizeDate($dateTime)
     {
-        $return =  \Drupal\persian_date\Converter\PersianDateFactory::buildFromExactDate(
+        $return =  PersianDateFactory::buildFromExactDate(
             $dateTime->format('H'),
             $dateTime->format('i'),
             $dateTime->format('s'),
@@ -101,15 +101,7 @@ class PersianDateConverter
             $dateTime->format('d'),
             $dateTime->format('Y')
         )->getOriginalDateTime();
-        if ($dateTime instanceof DrupalDateTime) {
-            $ref = new ReflectionObject($dateTime);
-            $property = $ref->getProperty('dateTimeObject');
-            $property->setAccessible(true);
-            $return->setTimezone($property->getValue($dateTime)->getTimezone());
-        }
-        if ($dateTime instanceof \DateTimeInterface) {
-            $return->setTimezone($dateTime->getTimezone());
-        }
+
         return $return;
     }
 }

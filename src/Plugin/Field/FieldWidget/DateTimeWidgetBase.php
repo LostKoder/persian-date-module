@@ -7,6 +7,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
+use Drupal\persian_date\Plugin\Datetime\PersianDrupalDateTime;
 
 /**
  * Base class for the 'datetime_*' widgets.
@@ -41,6 +42,7 @@ class DateTimeWidgetBase extends WidgetBase {
         datetime_date_default_time($date);
       }
       $date->setTimezone(new \DateTimeZone($element['value']['#date_timezone']));
+      $date = PersianDrupalDateTime::createFromDrupalDateTime($date);
       $element['value']['#default_value'] = $date;
     }
 

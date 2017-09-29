@@ -19,4 +19,22 @@ class PersianDrupalDateTime extends DrupalDateTime
         $dateTime = PersianDateFactory::buildFromOriginalDateTime($this->dateTimeObject);
         return $dateTime->format($format);
     }
+
+    public static function createFromDrupalDateTime(DrupalDateTime $dateTime)
+    {
+        $object = new self();
+        $object->dateTimeObject = $dateTime->dateTimeObject;
+        $object->langcode = $dateTime->langcode;
+        $object->formatTranslationCache = $dateTime->formatTranslationCache;
+        $object->stringTranslation = $dateTime->stringTranslation;
+        $object->errors = $dateTime->errors;
+        $object->inputFormatAdjusted = $dateTime->inputFormatAdjusted;
+        $object->inputFormatRaw = $dateTime->inputFormatRaw;
+        $object->inputTimeZoneRaw = $dateTime->inputTimeZoneRaw;
+        $object->inputTimeZoneAdjusted = $dateTime->inputTimeZoneAdjusted;
+        $object->inputTimeRaw = $dateTime->inputTimeRaw;
+        $object->inputTimeAdjusted = $dateTime->inputTimeAdjusted;
+        return $object;
+    }
+
 }

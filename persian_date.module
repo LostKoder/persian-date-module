@@ -446,11 +446,42 @@ FORMAT;
     }
 }
 
-function persian_date_replace_date_time_after_form_submit(&$form, \Drupal\Core\Form\FormState $state)
+function persian_date_replace_date_time_after_form_submit(&$form, \Drupal\Core\Form\FormState &$state)
 {
     if (!\Drupal\persian_date\PersianLanguageDiscovery::isPersian()) {
         return;
     }
+    $userInputs = $state->getUserInput();
+    foreach ($userInputs as $name => &$input) {
+        if (is_array($input) && isset($data['value']) && $input['value'] instanceof DrupalDateTime) {
+            $original = \Drupal\persian_date\Converter\PersianDateConverter::normalizeDate($input['value']);
+            $dateTime = new DrupalDateTime($original->format('Y-m-d H:i:s'));
+            $input['value'] = $dateTime;
+        }
+        if (!is_array($input) || !isset($input[0]['value']) || !is_array($input[0]['value']) || !is_string($input[0]['value']['date'])) {
+            continue;
+        }
+        list($year, $month, $day) = explode('-', $input[0]['value']['date']);
+        $input[0]['value']['date'] = implode('-', \Drupal\persian_date\Converter\PersianDateConverter::jalali_to_gregorian($year, $month, $day));
+    }
+    $state->setUserInput($userInputs);
+
+    $values = $state->getValues();
+    foreach ($values as $name => &$input) {
+        if (is_array($input) && isset($data['value']) && $input['value'] instanceof DrupalDateTime) {
+            $original = \Drupal\persian_date\Converter\PersianDateConverter::normalizeDate($input['value']);
+            $dateTime = new DrupalDateTime($original->format('Y-m-d H:i:s'));
+            $input['value'] = $dateTime;
+        }
+        if (!is_array($input) || !isset($input[0]['value']) || !is_array($input[0]['value']) || !is_string($input[0]['value']['date'])) {
+            continue;
+        }
+        list($year, $month, $day) = explode('-', $input[0]['value']['date']);
+        $input[0]['value']['date'] = implode('-', \Drupal\persian_date\Converter\PersianDateConverter::jalali_to_gregorian($year, $month, $day));
+    }
+
+    $state->setValues($values);
+
 
     foreach ($state->getValues() as $key => $values) {
         if (is_array($values)) {
@@ -460,7 +491,7 @@ function persian_date_replace_date_time_after_form_submit(&$form, \Drupal\Core\F
                     /** @var DrupalDateTime $dateTime */
                     $dateTime = $state->getValue($key)[$index]['value'];
                     $original = \Drupal\persian_date\Converter\PersianDateConverter::normalizeDate($dateTime);
-                    $dateTime = new DrupalDateTime($original->format('Y-m-d H:i:s'), $original->getTimezone());
+                    $dateTime = new DrupalDateTime($original->format('Y-m-d H:i:s'));
                     $_values[] = ['value' => $dateTime];
                 }
             }
@@ -469,6 +500,7 @@ function persian_date_replace_date_time_after_form_submit(&$form, \Drupal\Core\F
             }
         }
     }
+
 }
 
 function persian_date_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
@@ -483,34 +515,25 @@ function persian_date_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $f
             isset($definition['widget']) &&
             isset($definition['widget'][0]) &&
             isset($definition['widget'][0]['value']) &&
-            in_array($definition['widget'][0]['value']['#type'], ['datetime', 'datelist','persian_datetime','persian_datelist'])
+            in_array($definition['widget'][0]['value']['#type'], ['datetime', 'datelist', 'persian_datetime', 'persian_datelist'])
         ) {
             /** @var DrupalDateTime $dateTime */
             $dateTime = &$form[$field]['widget'][0]['value']['#default_value'];
             if (isset($dateTime) && $dateTime instanceof DrupalDateTime) {
-                $dateTime = PersianDrupalDateTime::createFromTimestamp($dateTime->format('U'));
+                $dateTime = PersianDrupalDateTime::createFromDrupalDateTime($dateTime);
+//            $form[$field]['#element_validate'][] = $callback;
             }
         }
     }
-
-    // register form-submit callback
-    array_unshift($form['#submit'], $callback);
-    if (isset($form['actions'])) {
-        foreach ($form['actions'] as $action => $values) {
-            if (isset($form['actions'][$action]['#submit']) && is_array($form['actions'][$action]['#submit'])) {
-                if (!in_array($callback, $form['actions'][$action]['#submit'])) {
-                    array_unshift($form['actions'][$action]['#submit'], $callback);
-                }
-            }
-        }
-    }
+    array_unshift($form['#validate'], $callback);
 }
-
-
 
 function persian_date_entity_form_display_alter(\Drupal\Core\Entity\Display\EntityFormDisplayInterface $form_display, array $context)
 {
-    $dateTime = $form_display->getComponent('field_bingo');
-    $dateTime['type'] = 'persian_datetime_default';
-    $form_display->setComponent('field_bingo', $dateTime);
+    foreach ($form_display->getComponents() as $name => $options) {
+        if (isset($options['type']) && $options['type'] == 'datetime_default') {
+            $options['type'] = 'persian_datetime_default';
+            $form_display->setComponent($name, $options);
+        }
+    }
 }

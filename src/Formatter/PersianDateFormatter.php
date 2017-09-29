@@ -43,7 +43,7 @@ class PersianDateFormatter extends DateFormatter
         if ($type === 'custom' & $format === DATETIME_DATETIME_STORAGE_FORMAT) {
             // convert shamsi to georgian
             $parent = parent::format($timestamp, $type, $format, $timezone, $langcode);
-            $other = PersianDateConverter::normalizeDate(new \DateTime($parent, new \DateTimeZone((string)$timezone)));
+            $other = PersianDateConverter::normalizeDate(new \DateTime($parent));
             return parent::format($other->getTimestamp(), $type, $format, $timezone, $langcode);
         }
 
