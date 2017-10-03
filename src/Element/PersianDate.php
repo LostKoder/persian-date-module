@@ -16,7 +16,7 @@ use Drupal\Core\Render\Element\Date;
 /**
  * Class PersianDate
  * @package Drupal\persian_date\Element
- * @FormElement("persian_date")
+ * @FormElement("date")
  */
 class PersianDate extends Date
 {
@@ -30,5 +30,4 @@ class PersianDate extends Date
         }
         return $element;
     }
-
 }

@@ -19,7 +19,7 @@ class DateTimeWidgetBase extends WidgetBase {
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $element['value'] = [
-      '#type' => 'persian_datetime',
+      '#type' => 'datetime',
       '#default_value' => NULL,
       '#date_increment' => 1,
       '#date_timezone' => drupal_get_user_timezone(),

@@ -9,7 +9,7 @@
 namespace Drupal\persian_date\DependencyInjection\Pass;
 
 
-use Drupal\persian_date\Formatter\PersianDateFormatter;
+use Drupal\persian_date\Service\Formatter\PersianDateFormatter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

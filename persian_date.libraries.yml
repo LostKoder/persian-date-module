@@ -6,10 +6,10 @@ core:
     resources/js/jquery.ui.datepicker-cc-fa.js: {}
     resources/js/date.js: {}
   css:
-    theme:
+    component:
+      resources/css/datepicker.css: {}
       resources/css/date.css: {}
   dependencies:
     - core/drupal
     - core/modernizr
     - core/jquery.once
-#    - core/jquery.ui.datepicker

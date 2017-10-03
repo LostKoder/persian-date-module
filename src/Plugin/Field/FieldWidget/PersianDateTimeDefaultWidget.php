@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Plugin implementation of the 'datetime_default' widget.
  *
  * @FieldWidget(
- *   id = "persian_datetime_default",
+ *   id = "datetime_default",
  *   label = @Translation("Date and time"),
  *   field_types = {
  *     "datetime"

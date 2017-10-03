@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Plugin implementation of the 'datetime_datelist' widget.
  *
  * @FieldWidget(
- *   id = "persian_datetime_datelist",
+ *   id = "datetime_datelist",
  *   label = @Translation("Select list"),
  *   field_types = {
  *     "datetime"
