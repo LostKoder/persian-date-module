@@ -22,6 +22,13 @@ use Drupal\persian_date\Plugin\Datetime\PersianDrupalDateTime;
  */
 class PersianDateTime extends Datetime
 {
+    public function getInfo()
+    {
+        $info = parent::getInfo();
+        $info['#date_date_element'] = 'text';
+        return $info;
+    }
+
     public static function formatExample($format) {
         if (!static::$dateExample) {
             static::$dateExample = new PersianDrupalDateTime();

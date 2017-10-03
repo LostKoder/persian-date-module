@@ -11,8 +11,6 @@ namespace Drupal\persian_date\Plugin\Datetime;
 
 use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\persian_date\Converter\PersianDate;
-use Drupal\persian_date\Converter\PersianDateConverter;
 use Drupal\persian_date\Converter\PersianDateFactory;
 
 class PersianDrupalDateTime extends DrupalDateTime
@@ -40,7 +38,8 @@ class PersianDrupalDateTime extends DrupalDateTime
         return $object;
     }
 
-    public static function createFromFormat($format, $time, $timezone = NULL, $settings = []) {
+    public static function createFromFormat($format, $time, $timezone = NULL, $settings = [])
+    {
         if (!isset($settings['validate_format'])) {
             $settings['validate_format'] = TRUE;
         }
@@ -49,14 +48,19 @@ class PersianDrupalDateTime extends DrupalDateTime
         // A regular try/catch won't work right here, if the value is
         // invalid it doesn't return an exception.
         $datetimeplus = new static('', $timezone, $settings);
+        // todo: fix to use format instead of hardcoded format
 
-        $date = \DateTime::createFromFormat($format, $time, $datetimeplus->getTimezone());
-        if (!$date instanceof \DateTime) {
-            throw new \InvalidArgumentException('The date cannot be created from a format.');
+        $date = false;
+        if ($time) {
+            list($dateString, $timeString) = explode(' ', $time);
+            list($year, $month, $day) = explode('-', $dateString);
+            list($hour, $minute, $second) = explode(':', $timeString);
+            $date = PersianDateFactory::buildFromExactDate($hour, $minute, $second, $month, $day, $year);
         }
 
-        else {
-            list($year, $month, $day) = PersianDateConverter::jalali_to_gregorian($date->format('Y'), $date->format('m'), $date->format('d'));
+        if (!$date instanceof \DateTime) {
+            throw new \InvalidArgumentException('The date cannot be created from a format.');
+        } else {
             // Functions that parse date is forgiving, it might create a date that
             // is not exactly a match for the provided value, so test for that by
             // re-creating the date/time formatted string and comparing it to the input. For
@@ -64,15 +68,16 @@ class PersianDrupalDateTime extends DrupalDateTime
             // created as '0011' instead of '2011'.
             if ($date instanceof DateTimePlus) {
                 $test_time = $date->format($format, $settings);
-            }
-            elseif ($date instanceof \DateTime) {
+            } elseif ($date instanceof \DateTime) {
                 $test_time = $date->format($format);
             }
+            // fixme: 31 shahrivar
             if ($settings['validate_format'] && $test_time != $time) {
                 throw new \UnexpectedValueException('The created date does not match the input value.');
             }
 
-            $date->setDate($year, $month, $day);
+            $date = $date->getOriginalDateTime();
+            $date->setTimezone($datetimeplus->getTimezone());
             $datetimeplus->setTimestamp($date->getTimestamp());
             $datetimeplus->setTimezone($date->getTimezone());
         }

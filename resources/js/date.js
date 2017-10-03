@@ -22,11 +22,11 @@
   Drupal.behaviors.date = {
     attach: function (context, settings) {
       var $context = $(context);
-      $context.find('[type=date]').attr('type','text');
-      $context.find('input[data-drupal-date-format]').once('datePicker').each(function () {
+      // $context.find('[type=date]').attr('type','text');
+      $context.find('input[id$=-date]').once('datePicker').each(function () {
         var $input = $(this);
         var datepickerSettings = {};
-        var dateFormat = $input.data('drupalDateFormat');
+        var dateFormat = 'Y-m-d';
         // The date format is saved in PHP style, we need to convert to jQuery
         // datepicker.
         datepickerSettings.dateFormat = dateFormat
@@ -44,6 +44,7 @@
         datepickerSettings.changeYear = true;
         // datepickerSettings.yearRange = '1380:1400';
         $input.datepicker(datepickerSettings);
+
       });
     },
     detach: function (context, settings, trigger) {

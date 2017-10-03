@@ -24,6 +24,11 @@ function persian_date_help($route_name, RouteMatchInterface $route_match)
     }
 }
 
+/**
+ * Replace form elements with persian ones
+ *
+ * Implements hook_element_info_alter().
+ */
 function persian_date_element_info_alter(array &$info)
 {
     $elements = array_intersect_key($info, array_flip(['date', 'datetime', 'datelist']));
@@ -62,6 +67,7 @@ function persian_date_element_info_alter(array &$info)
     $info = array_merge($info, $elements);
 }
 
+// helper method to replace classes
 function replace_with_equivalent_module_class($string)
 {
     $replacements = [
@@ -77,6 +83,11 @@ function replace_with_equivalent_module_class($string)
     return $string;
 }
 
+/**
+ * Replace date widgets with persian widgets
+ *
+ * Implements hook_field_widget_info_alter().
+ */
 function persian_date_field_widget_info_alter(array &$info)
 {
     // Let a new field type re-use an existing widget.

@@ -84,7 +84,7 @@ class PersianDateTimeDefaultWidget extends DateTimeWidgetBase implements Contain
         $time_format = $this->dateStorage->load('html_time')->getPattern();
         break;
     }
-
+    $date_type = 'text';
     $element['value'] += [
       '#date_date_format' => $date_format,
       '#date_date_element' => $date_type,
