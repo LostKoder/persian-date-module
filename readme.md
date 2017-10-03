@@ -1,6 +1,6 @@
 # Persian Date Module for Drupal 8
 
-Persian date widgets and formatter configured to work with persian date.
+Customized widgets and formatter configured to work with persian date.
 
 If you encounter any issue report it in issues page and we will try to fix it as soon as possible
 https://github.com/LostKoder/persian-date-module/issues
