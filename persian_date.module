@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\persian_date\PersianLanguageDiscovery;
 
 
 /**
@@ -31,6 +32,10 @@ function persian_date_help($route_name, RouteMatchInterface $route_match)
  */
 function persian_date_element_info_alter(array &$info)
 {
+    if (!PersianLanguageDiscovery::isPersian()) {
+        return;
+    }
+
     $elements = array_intersect_key($info, array_flip(['date', 'datetime', 'datelist']));
     foreach ($elements as $name => &$config) {
         if (isset($config['#process'])) {
@@ -90,6 +95,9 @@ function replace_with_equivalent_module_class($string)
  */
 function persian_date_field_widget_info_alter(array &$info)
 {
+    if (!PersianLanguageDiscovery::isPersian()) {
+        return;
+    }
     // Let a new field type re-use an existing widget.
     $info['datetime_default']['class'] = \Drupal\persian_date\Plugin\Field\FieldWidget\PersianDateTimeDefaultWidget::class;
     $info['datetime_datelist']['class'] = \Drupal\persian_date\Plugin\Field\FieldWidget\PersianDateTimeDatelistWidget::class;
