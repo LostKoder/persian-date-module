@@ -12,6 +12,7 @@ namespace Drupal\persian_date\Plugin\Datetime;
 use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\persian_date\Converter\PersianDateFactory;
+use Drupal\persian_date\Library\Jalali\jDateTime;
 
 class PersianDrupalDateTime extends DrupalDateTime
 {
@@ -52,9 +53,7 @@ class PersianDrupalDateTime extends DrupalDateTime
 
         $date = false;
         if ($time) {
-            list($dateString, $timeString) = explode(' ', $time);
-            list($year, $month, $day) = explode('-', $dateString);
-            list($hour, $minute, $second) = explode(':', $timeString);
+            list($year, $month, $day, $hour, $minute, $second)= array_values(jDateTime::parseFromFormat($format, $time));
             $date = PersianDateFactory::buildFromExactDate($hour, $minute, $second, $month, $day, $year);
         }
 
