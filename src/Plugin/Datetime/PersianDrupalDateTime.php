@@ -49,7 +49,6 @@ class PersianDrupalDateTime extends DrupalDateTime
         // A regular try/catch won't work right here, if the value is
         // invalid it doesn't return an exception.
         $datetimeplus = new static('', $timezone, $settings);
-        // todo: fix to use format instead of hardcoded format
 
         $date = false;
         if ($time) {
@@ -70,7 +69,7 @@ class PersianDrupalDateTime extends DrupalDateTime
             } elseif ($date instanceof \DateTime) {
                 $test_time = $date->format($format);
             }
-            // fixme: 31 shahrivar
+
             if ($settings['validate_format'] && $test_time != $time) {
                 throw new \UnexpectedValueException('The created date does not match the input value.');
             }
