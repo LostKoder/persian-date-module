@@ -692,6 +692,17 @@ class jDateTime
      */
     public static function parseFromFormat($format, $date)
     {
+      if ($format === 'Y-m-d') {
+        list($year, $month, $day) = explode('-',$date);
+        return [
+          'year' => $year,
+          'month' => $month,
+          'day' => $day,
+          'hour' => 12,
+          'minute' => 0,
+          'second' => 0,
+        ];
+      }
         // reverse engineer date formats
         $keys = array(
             'Y' => array('year', '\d{4}'),
